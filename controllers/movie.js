@@ -7,19 +7,7 @@ const getMyMovies = (req, res, next) => {
   Movie.find({ owner: idUser })
     .then((allMovies) => res.send(allMovies))
     .catch(next);
-};/// ///POPULATE вспомнить зачем
-
-/* const getMovies = (req, res, next) => {
-  Movie.find({ owner: req.user._id })
-    .then((movies) => {
-      res.send(movies);
-    })
-    .catch(next);
-}; */
-
-// const idUser = req.user;
-// const idUser = req.user._id;
-// owner: req.user._id
+};
 
 // создать фильм
 const postMovie = (req, res, next) => {
