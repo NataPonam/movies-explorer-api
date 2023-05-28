@@ -31,4 +31,6 @@ app.use(errors());
 
 app.use(serverError);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}`);
+});
