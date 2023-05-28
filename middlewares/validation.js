@@ -6,21 +6,15 @@ const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]
 const signUpValidation = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-    name: Joi.string().min(2).max(30),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 };
 
 const signInValidation = {
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-};
-
-const getUserByIdValidation = {
-  params: Joi.object().keys({
-    userId: Joi.string().length(24).hex().required(),
+    password: Joi.string().required(),
   }),
 };
 
@@ -37,7 +31,7 @@ const createMovieValidation = {
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required(),
-    year: Joi.number().required(),
+    year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(urlRegex),
     trailerLink: Joi.string().required().regex(urlRegex),
@@ -57,7 +51,6 @@ const deleteMovieValidation = {
 module.exports = {
   signUpValidation,
   signInValidation,
-  getUserByIdValidation,
   updateUserProfileValidation,
   createMovieValidation,
   deleteMovieValidation,
