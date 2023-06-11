@@ -1,17 +1,25 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
+const limiter = require('./utils/rateLimit');
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
+const {
+  NODE_ENV, PORT, DATABASE, MONGODB_URL,
+} = require('./utils/constants');
+const { serverError } = require('./errors/allErrors');
 
-const { PORT = 3001 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/filmsdb');
+mongoose.connect(NODE_ENV === 'production' ? DATABASE : MONGODB_URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(limiter);
 
 app.use(requestLogger);
 app.use(cors);
@@ -21,10 +29,8 @@ app.use(router);
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
-  next();
-});
+app.use(serverError);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}`);
+});
