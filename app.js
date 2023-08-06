@@ -19,11 +19,11 @@ mongoose.connect(NODE_ENV === 'production' ? DATABASE : MONGODB_URL);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(limiter);
 
 app.use(requestLogger);
 app.use(cors);
 
+app.use(limiter);
 app.use(router);
 
 app.use(errorLogger);
