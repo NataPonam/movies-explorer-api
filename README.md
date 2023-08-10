@@ -6,5 +6,5 @@
 `npm run dev` — запускает сервер с hot-reload
 
 Ссылка на репозиторий:
-IP-адрес сервера - 51.250.77.186
+IP-адрес сервера - 158.160.52.201
 Домен сервера - https://api.natapo.nomoredomains.monster
